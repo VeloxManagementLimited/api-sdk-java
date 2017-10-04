@@ -40,7 +40,12 @@ public class VelotradePublicAPITest {
 
 
         String id = "oa1a6a170-d3d4-428a-835f-35ab021d410c";
-        DebtorContact result = api.getDebtorContact(id);
+        DebtorContact result = null;
+        try {
+            result = api.getDebtorContact(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         assertEquals(expectedResult.getId(), result.getId());
     }
 }

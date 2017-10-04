@@ -18,7 +18,12 @@ public class VelotradeAPIConnectionTest {
 
     @Test
     public void test() {
-        VelotradeAPIConnection connection = new VelotradeAPIConnection(baseUrl, $username, $password);
+        VelotradeAPIConnection connection = null;
+        try {
+            connection = new VelotradeAPIConnection(baseUrl, $username, $password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String result = null;
         try {
             result = connection.query( RequestMethod.GET, "/debtor/list?fields=name,debtor,debtor.legalName", null, null);

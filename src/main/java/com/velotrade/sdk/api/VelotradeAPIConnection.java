@@ -24,15 +24,11 @@ public class VelotradeAPIConnection {
 
     public static final String USER_LOGIN = "/user/login/";
 
-    public VelotradeAPIConnection(String baseUrl, String userName, String password) {
+    public VelotradeAPIConnection(String baseUrl, String userName, String password) throws Exception {
         this.baseUrl = baseUrl;
         this.userName = userName;
         this.password = password;
-        try {
-            this.token = getAuthToken();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        this.token = getAuthToken();
 
     }
 

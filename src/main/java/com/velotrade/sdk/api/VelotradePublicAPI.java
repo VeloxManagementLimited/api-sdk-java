@@ -20,7 +20,7 @@ public class VelotradePublicAPI {
         this.password = password;
     }
 
-    public DebtorContact getDebtorContact(String id){
+    public DebtorContact getDebtorContact(String id) throws Exception {
         VelotradeAPIConnection api = new VelotradeAPIConnection(this.baseUrl, this.userName, this. password);
         String request = "/debtor/"+id+"?fields=name,email,phone,debtor.address,debtor.br,debtor.city,debtor.country,debtor.humanId,debtor.legalName,debtor.tradingName,debtor.website,debtor.zipCode";
         String method = RequestMethod.GET;
@@ -28,11 +28,8 @@ public class VelotradePublicAPI {
         contentType.put("Content-type", "application/json");
 
         String result = null;
-        try {
-            result = api.query(method, request, null, contentType);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        result = api.query(method, request, null, contentType);
 
         Gson gson = new Gson();
         DebtorContact debtorContact = gson.fromJson(result, DebtorContact.class);
