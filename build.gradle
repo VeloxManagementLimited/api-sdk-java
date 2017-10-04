@@ -11,10 +11,7 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
-    // Retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-
     // JSON Parsing
     compile 'com.google.code.gson:gson:2.6.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
 }

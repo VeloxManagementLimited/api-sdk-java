@@ -1,7 +1,6 @@
 package com.velotrade.sdk.api;
 
 import com.velotrade.sdk.entity.DebtorContact;
-import retrofit2.Retrofit;
 
 import java.io.IOException;
 
@@ -17,13 +16,4 @@ public class VelotradePublicAPI {
         this.password = password;
     }
 
-    public DebtorContact getDebtorContact(int id) throws IOException {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(this.baseUrl)
-                .build();
-
-        IVelotradePublicAPI service = retrofit.create(IVelotradePublicAPI.class);
-
-        return service.getDebtorContact(id).execute().body();
-    }
 }
