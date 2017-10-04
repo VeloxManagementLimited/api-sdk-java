@@ -50,4 +50,37 @@ public class VelotradePublicAPI {
         return auctionStatus.getStatus();
     }
 
+    public boolean rejectAuction(String id) throws Exception {
+        VelotradeAPIConnection api = new VelotradeAPIConnection(this.baseUrl, this.userName, this. password);
+
+        String method = RequestMethod.POST;
+        String request = "/"+id+"/reject";
+        Map<String, String> params = new HashMap<>();
+        params.put("auctionId", id);
+
+        Map<String, String> contentType = new HashMap<>();
+        contentType.put("content-type", "application/json;charset=UTF-8");
+
+        String result = api.query(method, request, params, contentType);
+
+        return result == null;
+    }
+
+    public boolean approveAuction(String id) throws Exception {
+        VelotradeAPIConnection api = new VelotradeAPIConnection(this.baseUrl, this.userName, this. password);
+
+        String method = RequestMethod.POST;
+        String request = "/"+id+"/approve";
+        Map<String, String> params = new HashMap<>();
+        params.put("auctionId", id);
+
+        Map<String, String> contentType = new HashMap<>();
+        contentType.put("content-type", "application/json;charset=UTF-8");
+
+        String result = api.query(method, request, params, contentType);
+
+        return result == null;
+    }
+
+
 }

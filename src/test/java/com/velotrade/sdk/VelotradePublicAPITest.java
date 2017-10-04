@@ -65,4 +65,34 @@ public class VelotradePublicAPITest {
 
         assertEquals(expectedResult, result);
     }
+
+    @Test
+    public void testApproveAuctionShouldReturnTrue(){
+        VelotradePublicAPI api = new VelotradePublicAPI(baseUrl, username, password);
+
+        String id = "t6bba8cd6-5cd0-489a-8452-e3e351337755";
+        boolean result = false;
+        try {
+            result = api.approveAuction(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(result);
+    }
+
+    @Test
+    public void testRejectAuctionShouldReturnTrue(){
+        VelotradePublicAPI api = new VelotradePublicAPI(baseUrl, username, password);
+
+        String id = "t6bba8cd6-5cd0-489a-8452-e3e351337755";
+        boolean result = false;
+        try {
+            result = api.rejectAuction(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(result);
+    }
 }

@@ -135,7 +135,7 @@ public class VelotradeAPIConnection {
                 DataOutputStream out = new DataOutputStream(connection.getOutputStream());
                 out.writeBytes(ParameterStringBuilder.getParamsString(params));
                 out.flush();
-                out.close();
+
 
                 //send request
                 status = connection.getResponseCode();
@@ -147,6 +147,7 @@ public class VelotradeAPIConnection {
 
                 //get result and close connection
                 result = String.valueOf(content);
+                out.close();
                 in.close();
                 connection.disconnect();
         }
