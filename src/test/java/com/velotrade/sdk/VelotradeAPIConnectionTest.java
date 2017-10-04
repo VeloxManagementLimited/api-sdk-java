@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class VelotradePublicAPITest {
-    
+
     String baseUrl = "https://devapi.velotrade.com";
     String $username = "robin.walser+sel1@me.com";
     String $password = "LBlN/DMcGA/NnI7WQot3qg==";
