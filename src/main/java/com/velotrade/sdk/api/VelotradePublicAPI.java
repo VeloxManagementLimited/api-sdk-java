@@ -1,9 +1,9 @@
 package com.velotrade.sdk.api;
 
 import com.google.gson.Gson;
-import com.velotrade.sdk.entity.DebtorContact;
-import com.velotrade.sdk.entity.RequestMethod;
+import com.velotrade.sdk.entity.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,14 +27,27 @@ public class VelotradePublicAPI {
         Map<String, String> contentType = new HashMap<>();
         contentType.put("Content-type", "application/json");
 
-        String result = null;
-
-        result = api.query(method, request, null, contentType);
+        String result = api.query(method, request, null, contentType);
 
         Gson gson = new Gson();
         DebtorContact debtorContact = gson.fromJson(result, DebtorContact.class);
 
         return debtorContact;
+    }
+
+    public String getAuctionStatus(String id) throws Exception {
+        VelotradeAPIConnection api = new VelotradeAPIConnection(this.baseUrl, this.userName, this. password);
+
+        String request = "/auction/"+id+"?fields=status";
+        String method = RequestMethod.GET;
+        Map<String, String> contentType = new HashMap<>();
+        contentType.put("Content-type", "application/json");
+
+        String result = api.query(method, request, null, contentType);
+
+        Gson gson = new Gson();
+        AuctionStatus auctionStatus = gson.fromJson(result, AuctionStatus.class);
+        return auctionStatus.getStatus();
     }
 
 }

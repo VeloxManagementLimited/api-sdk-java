@@ -15,7 +15,7 @@ public class VelotradePublicAPITest {
     String password = "LBlN/DMcGA/NnI7WQot3qg==";
 
     @Test
-    public void test(){
+    public void testGetDebtorContactIdEqualsExpectedId(){
         VelotradePublicAPI api = new VelotradePublicAPI(baseUrl, username, password);
 
         DebtorContact expectedResult = new DebtorContact();
@@ -47,5 +47,22 @@ public class VelotradePublicAPITest {
             e.printStackTrace();
         }
         assertEquals(expectedResult.getId(), result.getId());
+    }
+
+    @Test
+    public void testgetAuctionStatusReturnExpectedResult(){
+
+        String expectedResult = "UNDER_REVIEW";
+
+        VelotradePublicAPI api = new VelotradePublicAPI(baseUrl, username, password);
+        String id = "t6bba8cd6-5cd0-489a-8452-e3e351337755";
+        String result = null;
+        try {
+            result = api.getAuctionStatus(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(expectedResult, result);
     }
 }
