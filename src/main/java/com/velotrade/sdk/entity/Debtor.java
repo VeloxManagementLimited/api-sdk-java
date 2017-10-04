@@ -1,23 +1,25 @@
 package com.velotrade.sdk.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Debtor {
 
-    private int id;
+    private String id;
     private String address;
     private String br;
     private String city;
     private String country;
-    private int humanId;
+    private String humanId;
     private String legalName;
     private String tradingName;
     private String website;
-    private long zipcode;
+    private String zipCode;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -45,11 +47,11 @@ public class Debtor {
         this.city = city;
     }
 
-    public int getHumanId() {
+    public String getHumanId() {
         return humanId;
     }
 
-    public void setHumanId(int humanId) {
+    public void setHumanId(String humanId) {
         this.humanId = humanId;
     }
 
@@ -77,12 +79,12 @@ public class Debtor {
         this.website = website;
     }
 
-    public long getZipcode() {
-        return zipcode;
+    public String getZipcode() {
+        return zipCode;
     }
 
-    public void setZipcode(long zipcode) {
-        this.zipcode = zipcode;
+    public void setZipcode(String zipcode) {
+        this.zipCode = zipcode;
     }
 
     public String getCountry() {

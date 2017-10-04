@@ -2,17 +2,17 @@ package com.velotrade.sdk.entity;
 
 public class DebtorContact {
 
-    private int id;
+    private String id;
     private String email;
     private String name;
     private String phone;
     private Debtor debtor;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

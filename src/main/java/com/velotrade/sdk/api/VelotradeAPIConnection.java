@@ -98,7 +98,7 @@ public class VelotradeAPIConnection {
 
                 //add header
                 if(contentTypes != null){
-                    for (Map.Entry<String, String> entry: params.entrySet()) {
+                    for (Map.Entry<String, String> entry: contentTypes.entrySet()) {
                         connection.setRequestProperty(entry.getKey(), entry.getValue());
                     }
                 }
@@ -128,7 +128,7 @@ public class VelotradeAPIConnection {
 
                 //add header
                 if(contentTypes != null){
-                    for (Map.Entry<String, String> entry: params.entrySet()) {
+                    for (Map.Entry<String, String> entry: contentTypes.entrySet()) {
                         connection.setRequestProperty(entry.getKey(), entry.getValue());
                     }
                 }

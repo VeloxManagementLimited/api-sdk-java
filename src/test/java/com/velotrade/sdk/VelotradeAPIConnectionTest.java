@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class VelotradePublicAPITest {
+public class VelotradeAPIConnectionTest {
 
     String baseUrl = "https://devapi.velotrade.com";
     String $username = "robin.walser+sel1@me.com";
