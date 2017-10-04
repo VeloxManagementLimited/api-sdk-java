@@ -30,11 +30,10 @@ public class VelotradeAPIConnection {
         this.password = password;
         try {
             this.token = getAuthToken();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public String getBaseUrl() {
