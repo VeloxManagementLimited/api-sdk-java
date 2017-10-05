@@ -2,9 +2,8 @@ package com.velotrade.sdk.api;
 
 import com.google.gson.Gson;
 import com.velotrade.sdk.entity.*;
+import com.velotrade.sdk.jsonobject.AuctionStatus;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +13,8 @@ public class VelotradePublicAPI {
     private String userName;
     private String password;
 
+    public static final String LOGIN_REQUEST = "/user/login/";
+
     public VelotradePublicAPI(String baseUrl, String userName, String password) {
         this.baseUrl = baseUrl;
         this.userName = userName;
@@ -21,7 +22,7 @@ public class VelotradePublicAPI {
     }
 
     public DebtorContact getDebtorContact(String id) throws Exception {
-        VelotradeAPIConnection api = new VelotradeAPIConnection(this.baseUrl, this.userName, this. password);
+        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
         String request = "/debtor/"+id+"?fields=name,email,phone,debtor.address,debtor.br,debtor.city,debtor.country,debtor.humanId,debtor.legalName,debtor.tradingName,debtor.website,debtor.zipCode";
         String method = RequestMethod.GET;
         Map<String, String> contentType = new HashMap<>();
@@ -36,7 +37,7 @@ public class VelotradePublicAPI {
     }
 
     public String getAuctionStatus(String id) throws Exception {
-        VelotradeAPIConnection api = new VelotradeAPIConnection(this.baseUrl, this.userName, this. password);
+        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
 
         String request = "/auction/"+id+"?fields=status";
         String method = RequestMethod.GET;
@@ -51,7 +52,7 @@ public class VelotradePublicAPI {
     }
 
     public boolean rejectAuction(String id) throws Exception {
-        VelotradeAPIConnection api = new VelotradeAPIConnection(this.baseUrl, this.userName, this. password);
+        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
 
         String method = RequestMethod.POST;
         String request = "/"+id+"/reject";
@@ -67,7 +68,7 @@ public class VelotradePublicAPI {
     }
 
     public boolean approveAuction(String id) throws Exception {
-        VelotradeAPIConnection api = new VelotradeAPIConnection(this.baseUrl, this.userName, this. password);
+        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
 
         String method = RequestMethod.POST;
         String request = "/"+id+"/approve";

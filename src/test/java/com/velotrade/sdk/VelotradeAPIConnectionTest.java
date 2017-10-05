@@ -1,14 +1,12 @@
 package com.velotrade.sdk;
 
-import com.velotrade.sdk.api.VelotradeAPIConnection;
-import com.velotrade.sdk.entity.Auction;
+import com.velotrade.sdk.api.VelotradeConnection;
+import com.velotrade.sdk.api.VelotradePublicAPI;
+import com.velotrade.sdk.api.VelotradePublicConnection;
 import com.velotrade.sdk.entity.RequestMethod;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class VelotradeAPIConnectionTest {
 
@@ -18,9 +16,9 @@ public class VelotradeAPIConnectionTest {
 
     @Test
     public void test() {
-        VelotradeAPIConnection connection = null;
+        VelotradeConnection connection = null;
         try {
-            connection = new VelotradeAPIConnection(baseUrl, $username, $password);
+            connection = new VelotradePublicConnection(baseUrl, $username, $password, VelotradePublicAPI.LOGIN_REQUEST);
         } catch (Exception e) {
             e.printStackTrace();
         }
