@@ -9,7 +9,7 @@ You can complie it yourself, here's how:
 
     $ git clone https://github.com/VeloxManagementLimited/api-sdk-java.git
     $ cd api-sdk-java
-    $ gradle 
+    $ ./gradlew jar
     
 # Quickstart
 
