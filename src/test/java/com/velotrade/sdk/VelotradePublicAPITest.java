@@ -3,7 +3,10 @@ package com.velotrade.sdk;
 import com.velotrade.sdk.api.VelotradePublicAPI;
 import com.velotrade.sdk.entity.Debtor;
 import com.velotrade.sdk.entity.DebtorContact;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -14,9 +17,16 @@ public class VelotradePublicAPITest {
     String username = "robin.walser+sel1@me.com";
     String password = "LBlN/DMcGA/NnI7WQot3qg==";
 
+    VelotradePublicAPI api;
+
+    @Before
+    public void createVelotradePublicAPI(){
+        api = new VelotradePublicAPI(baseUrl, username, password);
+    }
+
     @Test
     public void testGetDebtorContactIdEqualsExpectedId(){
-        VelotradePublicAPI api = new VelotradePublicAPI(baseUrl, username, password);
+
 
         DebtorContact expectedResult = new DebtorContact();
         expectedResult.setId("oa1a6a170-d3d4-428a-835f-35ab021d410c");
@@ -53,8 +63,6 @@ public class VelotradePublicAPITest {
     public void testgetAuctionStatusReturnExpectedResult(){
 
         String expectedResult = "UNDER_REVIEW";
-
-        VelotradePublicAPI api = new VelotradePublicAPI(baseUrl, username, password);
         String id = "t6bba8cd6-5cd0-489a-8452-e3e351337755";
         String result = null;
         try {
@@ -68,8 +76,6 @@ public class VelotradePublicAPITest {
 
     @Test
     public void testApproveAuctionShouldReturnTrue(){
-        VelotradePublicAPI api = new VelotradePublicAPI(baseUrl, username, password);
-
         String id = "t6bba8cd6-5cd0-489a-8452-e3e351337755";
         boolean result = false;
         try {
@@ -80,19 +86,29 @@ public class VelotradePublicAPITest {
 
         assertTrue(result);
     }
+//
+//    @Test
+//    public void testRejectAuctionShouldReturnTrue(){
+//        String id = "t6bba8cd6-5cd0-489a-8452-e3e351337755";
+//        boolean result = false;
+//        try {
+//            result = api.rejectAuction(id);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        assertTrue(result);
+//    }
 
     @Test
-    public void testRejectAuctionShouldReturnTrue(){
-        VelotradePublicAPI api = new VelotradePublicAPI(baseUrl, username, password);
-
-        String id = "t6bba8cd6-5cd0-489a-8452-e3e351337755";
-        boolean result = false;
+    public void testGetDebtorContacts(){
         try {
-            result = api.rejectAuction(id);
+            List<DebtorContact> result  = api.getDebtorContacts();
+            assertEquals(2, result.size());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        assertTrue(result);
+
     }
 }

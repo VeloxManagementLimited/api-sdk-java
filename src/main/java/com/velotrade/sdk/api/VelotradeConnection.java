@@ -86,6 +86,8 @@ public abstract class VelotradeConnection {
             case RequestMethod.POST:
                 //create request
                 connection.setRequestMethod("POST");
+                connection.setRequestMethod("POST");
+
 
                 //add header
                 if(contentTypes != null){
@@ -96,10 +98,15 @@ public abstract class VelotradeConnection {
                 connection.setRequestProperty("Authorization", this.token);
 
                 //add params to request
+                connection.setReadTimeout(10000);
+                connection.setConnectTimeout(15000);
+                connection.setDoInput(true);
                 connection.setDoOutput(true);
+
                 DataOutputStream out = new DataOutputStream(connection.getOutputStream());
                 out.writeBytes(ParameterStringBuilder.getParamsString(params));
                 out.flush();
+                out.close();
 
 
                 //send request
@@ -112,7 +119,7 @@ public abstract class VelotradeConnection {
 
                 //get result and close connection
                 result = String.valueOf(content);
-                out.close();
+
                 in.close();
                 connection.disconnect();
         }

@@ -1,10 +1,13 @@
 package com.velotrade.sdk.api;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.velotrade.sdk.entity.*;
 import com.velotrade.sdk.jsonobject.AuctionStatus;
+import com.velotrade.sdk.jsonobject.PaginationList;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class VelotradePublicAPI {
@@ -54,7 +57,7 @@ public class VelotradePublicAPI {
     public boolean rejectAuction(String id) throws Exception {
         VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
 
-        String method = RequestMethod.POST;
+        String method = "POST";
         String request = "/"+id+"/reject";
         Map<String, String> params = new HashMap<>();
         params.put("auctionId", id);
@@ -70,7 +73,7 @@ public class VelotradePublicAPI {
     public boolean approveAuction(String id) throws Exception {
         VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
 
-        String method = RequestMethod.POST;
+        String method = "POST";
         String request = "/"+id+"/approve";
         Map<String, String> params = new HashMap<>();
         params.put("auctionId", id);
@@ -82,6 +85,28 @@ public class VelotradePublicAPI {
 
         return result == null;
     }
+
+    public List<DebtorContact> getDebtorContacts() throws Exception {
+        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
+        String request = "/debtor/list";
+        String method = "GET";
+        Map<String, String> contentType = new HashMap<>();
+        contentType.put("content-type", "application/json");
+        String result = api.query(method, request, null, contentType);
+
+        Gson gson = new Gson();
+        PaginationList debtorContacts = gson.fromJson(result, PaginationList.class);
+
+        return debtorContacts.getDebtorContacts();
+    }
+
+//    public String createAuction(Auction auction) throws Exception {
+//        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
+//
+//        String request = "/auction/";
+//        String method = "POST";
+//        Map<String, String> params =
+//    }
 
 
 }

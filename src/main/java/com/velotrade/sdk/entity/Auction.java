@@ -10,7 +10,6 @@ public class Auction {
     private Attachment transportationDocument;
     private Attachment purchaseOrder;
 
-
     public Auction(Debtor debtor, DebtorContact debtorContact, Invoice invoice, Attachment invoiceAttachment, Attachment transportationDocument, Attachment purchaseOrder) {
         this.debtor = debtor;
         this.debtorContact = debtorContact;
