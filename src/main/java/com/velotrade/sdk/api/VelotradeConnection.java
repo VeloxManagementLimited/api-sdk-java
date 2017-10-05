@@ -1,9 +1,9 @@
 package com.velotrade.sdk.api;
 
 import com.google.gson.Gson;
-import com.velotrade.sdk.entity.ParameterStringBuilder;
+import com.velotrade.sdk.jsonobject.ParameterStringBuilder;
 import com.velotrade.sdk.entity.RequestMethod;
-import com.velotrade.sdk.entity.TokenData;
+import com.velotrade.sdk.jsonobject.TokenData;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -11,23 +11,25 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 import java.util.Map;
 
-public class VelotradeAPIConnection {
+public abstract class VelotradeAPIConnection {
 
-    private String baseUrl;
-    private String userName;
-    private String password;
-    private String token;
-    private String entityId;
+    protected String baseUrl;
+    protected String userName;
+    protected String password;
+    protected String token;
+    protected String entityId;
+
+    protected String loginRequest = null;
 
     public static final String USER_LOGIN = "/user/login/";
 
-    public VelotradeAPIConnection(String baseUrl, String userName, String password) throws Exception {
+    public VelotradeAPIConnection(String baseUrl, String userName, String password, String loginRequest) throws Exception {
         this.baseUrl = baseUrl;
         this.userName = userName;
         this.password = password;
+        this.loginRequest = loginRequest;
         this.token = getAuthToken();
 
     }
@@ -36,40 +38,7 @@ public class VelotradeAPIConnection {
         return baseUrl;
     }
 
-    private String getAuthToken() throws Exception {
-
-        //create Request
-        URL url = new URL(baseUrl+USER_LOGIN);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-
-        //add header
-        connection.setRequestProperty("Content-type", "application/json");
-        connection.setRequestProperty("Authorization", "Velox_"+userName+":"+password);
-
-        //send request
-        int status = connection.getResponseCode();
-
-        //get response
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        StringBuffer content = new StringBuffer();
-        while ((inputLine = in.readLine()) != null){
-            content.append(inputLine);
-        }
-        in.close();
-        connection.disconnect();
-
-        //convert to object
-        Gson gson = new Gson();
-        TokenData tokenData = gson.fromJson(String.valueOf(content), TokenData.class);
-
-        //get userID
-        this.entityId = tokenData.getId();
-
-        // return token
-        return tokenData.getExtraData().getAuth();
-    }
+    abstract protected String getAuthToken();
 
     public String getEntityId() {
         return entityId;
@@ -78,18 +47,16 @@ public class VelotradeAPIConnection {
     public String query(String method, String request, Map<String, String> params, Map<String, String> contentTypes) throws IOException {
 
         String result = null;
-        URL url = null;
-        HttpURLConnection connection = null;
         int status = 0;
         String inputLine = null;
         BufferedReader in = null;
         StringBuffer content = null;
+        URL url = new URL(baseUrl+request);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         switch (method){
             case RequestMethod.GET:
                 //create request
-                url = new URL(baseUrl+request);
-                connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
 
                 //add header
@@ -118,9 +85,7 @@ public class VelotradeAPIConnection {
                 break;
             case RequestMethod.POST:
                 //create request
-                url = new URL(baseUrl+request);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod(RequestMethod.POST);
+                connection.setRequestMethod("POST");
 
                 //add header
                 if(contentTypes != null){
