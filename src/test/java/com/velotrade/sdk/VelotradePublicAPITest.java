@@ -1,8 +1,7 @@
 package com.velotrade.sdk;
 
 import com.velotrade.sdk.api.VelotradePublicAPI;
-import com.velotrade.sdk.entity.Debtor;
-import com.velotrade.sdk.entity.DebtorContact;
+import com.velotrade.sdk.entity.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,7 +12,6 @@ import static org.junit.Assert.*;
 public class VelotradePublicAPITest {
 
     String baseUrl = "https://devapi.velotrade.com";
-
     String username = "robin.walser+sel1@me.com";
     String password = "LBlN/DMcGA/NnI7WQot3qg==";
 
@@ -53,10 +51,11 @@ public class VelotradePublicAPITest {
         DebtorContact result = null;
         try {
             result = api.getDebtorContact(id);
+            assertEquals(expectedResult.getId(), result.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals(expectedResult.getId(), result.getId());
+
     }
 
     @Test
@@ -67,11 +66,12 @@ public class VelotradePublicAPITest {
         String result = null;
         try {
             result = api.getAuctionStatus(id);
+            assertEquals(expectedResult, result);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        assertEquals(expectedResult, result);
+
     }
 
     @Test
@@ -81,24 +81,22 @@ public class VelotradePublicAPITest {
         try {
             result = api.approveAuction(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            assertEquals("An error has occurred while approving the auction", e.getMessage());
         }
 
-        assertTrue(result);
     }
-//
-//    @Test
-//    public void testRejectAuctionShouldReturnTrue(){
-//        String id = "t6bba8cd6-5cd0-489a-8452-e3e351337755";
-//        boolean result = false;
-//        try {
-//            result = api.rejectAuction(id);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        assertTrue(result);
-//    }
+
+    @Test
+    public void testRejectAuctionShouldReturnTrue(){
+        String id = "t6bba8cd6-5cd0-489a-8452-e3e351337755";
+        boolean result = false;
+        try {
+            result = api.rejectAuction(id);
+        } catch (Exception e) {
+            assertEquals("An error has occurred while approving the auction", e.getMessage());
+        }
+
+    }
 
     @Test
     public void testGetDebtorContacts(){
@@ -109,6 +107,45 @@ public class VelotradePublicAPITest {
             e.printStackTrace();
         }
 
+    }
+
+    @Test
+    public void testUploadFileShouldReturnNull(){
+        try {
+            Attachment result = api.uploadAttachment("/home/hieu/icon.png");
+            assertNotNull(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Test
+    public void createAuctionShouldNotReturnNull(){
+        String id = "oa1a6a170-d3d4-428a-835f-35ab021d410c";
+        Invoice invoice = new Invoice();
+        invoice.setNumber("TEST");
+        invoice.setIssueDate("2017-09-28T16:00:00.000Z");
+        invoice.setCurrency("USD");
+        invoice.setAmount(10000);
+        invoice.setExpectedAmount(10000);
+        invoice.setPaymentTerms(6000);
+        invoice.setDueDate("2017-11-27T16:00:00.000Z");
+        invoice.setExpectedPaymentDate("2017-11-27T16:00:00.000Z");
+        invoice.setDescription("TEST");
+
+
+        try {
+            Attachment attachment = api.uploadAttachment("/home/hieu/icon.png");
+            DebtorContact debtorContact = api.getDebtorContact(id);
+            Auction auction = new Auction(debtorContact, invoice, attachment, attachment, attachment);
+
+            String result = api.createAuction(auction);
+            assertNotNull(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }

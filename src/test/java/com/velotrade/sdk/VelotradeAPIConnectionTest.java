@@ -19,16 +19,10 @@ public class VelotradeAPIConnectionTest {
         VelotradeConnection connection = null;
         try {
             connection = new VelotradePublicConnection(baseUrl, $username, $password, VelotradePublicAPI.LOGIN_REQUEST);
+            assert connection != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String result = null;
-        try {
-            result = connection.query( RequestMethod.GET, "/debtor/list?fields=name,debtor,debtor.legalName", null, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(result);
 
     }
 }

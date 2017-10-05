@@ -1,40 +1,38 @@
 package com.velotrade.sdk.entity;
 
-import java.util.Date;
-
 public class Invoice {
 
-    private int number;
-    private Date issueDate;
-    private float currency;
+    private String number;
+    private String issueDate;
+    private String currency;
     private float amount;
     private float expectedAmount;
     private float paymentTerms;
-    private Date dueDate;
-    private Date expectedPaymentDate;
+    private String dueDate;
+    private String expectedPaymentDate;
     private String description;
 
-    public int getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
-    public Date getIssueDate() {
+    public String getIssueDate() {
         return issueDate;
     }
 
-    public void setIssueDate(Date issueDate) {
+    public void setIssueDate(String issueDate) {
         this.issueDate = issueDate;
     }
 
-    public float getCurrency() {
+    public String getCurrency() {
         return currency;
     }
 
-    public void setCurrency(float currency) {
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
 
@@ -62,19 +60,19 @@ public class Invoice {
         this.paymentTerms = paymentTerms;
     }
 
-    public Date getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 
-    public Date getExpectedPaymentDate() {
+    public String getExpectedPaymentDate() {
         return expectedPaymentDate;
     }
 
-    public void setExpectedPaymentDate(Date expectedPaymentDate) {
+    public void setExpectedPaymentDate(String expectedPaymentDate) {
         this.expectedPaymentDate = expectedPaymentDate;
     }
 

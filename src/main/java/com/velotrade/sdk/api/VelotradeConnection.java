@@ -1,18 +1,22 @@
 package com.velotrade.sdk.api;
 
-import com.google.gson.Gson;
-import com.velotrade.sdk.jsonobject.ParameterStringBuilder;
 import com.velotrade.sdk.entity.RequestMethod;
-import com.velotrade.sdk.jsonobject.TokenData;
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
+import java.io.*;
+import java.util.List;
 import java.util.Map;
 
 public abstract class VelotradeConnection {
@@ -44,88 +48,86 @@ public abstract class VelotradeConnection {
         return entityId;
     }
 
-    public String query(String method, String request, Map<String, String> params, Map<String, String> contentTypes) throws IOException {
-
+    /**
+     *
+     * @param method GET, POST ....
+     * @param request path
+     * @param params list of parameters, if using jsonParams put with format name:"json", value:"yourJsonString"
+     * @param contentTypes list of contentType for header
+     * @param isWithJson true if want to send request with jsonParam
+     * @return return Json format
+     * @throws IOException
+     */
+    public String query(String method, String request, List<NameValuePair> params, Map<String, String> contentTypes, boolean isWithJson) throws IOException {
         String result = null;
-        int status = 0;
-        String inputLine = null;
-        BufferedReader in = null;
-        StringBuffer content = null;
-        URL url = new URL(baseUrl+request);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
+        CloseableHttpClient client = HttpClients.createDefault();
+        ResponseHandler<String> handler = new BasicResponseHandler();
+        CloseableHttpResponse response;
         switch (method){
             case RequestMethod.GET:
-                //create request
-                connection.setRequestMethod("GET");
-
-                //add header
-                if(contentTypes != null){
-                    for (Map.Entry<String, String> entry: contentTypes.entrySet()) {
-                        connection.setRequestProperty(entry.getKey(), entry.getValue());
-                    }
+                HttpGet httpGet = new HttpGet(baseUrl + request);
+                for (Map.Entry<String, String> entry: contentTypes.entrySet()) {
+                        httpGet.addHeader(entry.getKey(), entry.getValue());
                 }
-                connection.setRequestProperty("Authorization", this.token);
-
-                //send request
-                status = connection.getResponseCode();
-
-                //get response
-                in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                content = new StringBuffer();
-                while ((inputLine = in.readLine()) != null){
-                    content.append(inputLine);
-                }
-
-                //get result and close connection
-                result = String.valueOf(content);
-                in.close();
-                connection.disconnect();
-
+                httpGet.addHeader("Authorization", this.token);
+                response = client.execute(httpGet);
+                result = handler.handleResponse(response);
+                client.close();
                 break;
             case RequestMethod.POST:
-                //create request
-                connection.setRequestMethod("POST");
-                connection.setRequestMethod("POST");
-
-
-                //add header
-                if(contentTypes != null){
-                    for (Map.Entry<String, String> entry: contentTypes.entrySet()) {
-                        connection.setRequestProperty(entry.getKey(), entry.getValue());
-                    }
+                HttpPost httpPost = new HttpPost(baseUrl + request);
+                for (Map.Entry<String, String> entry: contentTypes.entrySet()) {
+                    httpPost.addHeader(entry.getKey(), entry.getValue());
                 }
-                connection.setRequestProperty("Authorization", this.token);
+                httpPost.addHeader("Authorization", this.token);
 
-                //add params to request
-                connection.setReadTimeout(10000);
-                connection.setConnectTimeout(15000);
-                connection.setDoInput(true);
-                connection.setDoOutput(true);
-
-                DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-                out.writeBytes(ParameterStringBuilder.getParamsString(params));
-                out.flush();
-                out.close();
-
-
-                //send request
-                status = connection.getResponseCode();
-                in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                content = new StringBuffer();
-                while ((inputLine = in.readLine()) != null){
-                    content.append(inputLine);
+                if(isWithJson){
+                    httpPost.setHeader("Accept", "application/json");
+                    StringEntity entity = new StringEntity(params.get(0).getValue());
+                    httpPost.setEntity(entity);
+                }else{
+                    httpPost.setEntity(new UrlEncodedFormEntity(params));
                 }
 
-                //get result and close connection
-                result = String.valueOf(content);
-
-                in.close();
-                connection.disconnect();
+                response = client.execute(httpPost);
+                result = handler.handleResponse(response);
+                client.close();
+                break;
         }
 
         return result;
 
+    }
+
+    /**
+     * use for uploading file
+     * @param filePath
+     * @param request
+     * @return id and name of file in json format
+     * @throws IOException
+     */
+    public String uploadFile(String filePath, String request) throws IOException {
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(baseUrl+request);
+        httpPost.addHeader("Authorization", this.token);
+
+        File file = new File(filePath);
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.addBinaryBody("file", file,
+                ContentType.APPLICATION_OCTET_STREAM,
+                file.getAbsolutePath().substring(file.getAbsolutePath().lastIndexOf("/")+1));
+        HttpEntity multipart = builder.build();
+
+        httpPost.setEntity(multipart);
+
+        CloseableHttpResponse response = client.execute(httpPost);
+
+
+        ResponseHandler<String> handler = new BasicResponseHandler();
+        String result = handler.handleResponse(response);
+
+        client.close();
+        return result;
     }
 
 }
