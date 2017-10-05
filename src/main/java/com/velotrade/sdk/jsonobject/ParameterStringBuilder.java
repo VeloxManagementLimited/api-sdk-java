@@ -1,4 +1,4 @@
-package com.velotrade.sdk.entity;
+package com.velotrade.sdk.jsonobject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

@@ -10,10 +10,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Map;
 
-public abstract class VelotradeAPIConnection {
+public abstract class VelotradeConnection {
 
     protected String baseUrl;
     protected String userName;
@@ -23,9 +25,7 @@ public abstract class VelotradeAPIConnection {
 
     protected String loginRequest = null;
 
-    public static final String USER_LOGIN = "/user/login/";
-
-    public VelotradeAPIConnection(String baseUrl, String userName, String password, String loginRequest) throws Exception {
+    public VelotradeConnection(String baseUrl, String userName, String password, String loginRequest) throws Exception {
         this.baseUrl = baseUrl;
         this.userName = userName;
         this.password = password;
@@ -38,7 +38,7 @@ public abstract class VelotradeAPIConnection {
         return baseUrl;
     }
 
-    abstract protected String getAuthToken();
+    abstract protected String getAuthToken() throws IOException;
 
     public String getEntityId() {
         return entityId;
