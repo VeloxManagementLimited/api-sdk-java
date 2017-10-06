@@ -20,7 +20,7 @@ public class VelotradePublicConnection extends VelotradeConnection {
     @Override
     protected String getAuthToken() throws IOException {
         CloseableHttpClient client = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet(baseUrl + VelotradePublicAPI.LOGIN_REQUEST);
+        HttpGet httpGet = new HttpGet(baseUrl + VelotradePublicAPIImpl.LOGIN_REQUEST);
         httpGet.addHeader("Content-type", "application/json");
         httpGet.addHeader("Authorization", "Velox_"+userName+":"+password);
         ResponseHandler<String> handler = new BasicResponseHandler();
@@ -30,5 +30,12 @@ public class VelotradePublicConnection extends VelotradeConnection {
         TokenData tokenData = gson.fromJson(result, TokenData.class);
         this.entityId = tokenData.getId();
         return tokenData.getExtraData().getAuth();
+    }
+
+    private boolean isTheSameAccount(String baseUrl, String userName, String password){
+        if(baseUrl.equals(this.baseUrl) && userName.equals(this.userName) && password.equals(this.password)){
+            return true;
+        }
+        return false;
     }
 }

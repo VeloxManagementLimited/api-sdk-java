@@ -1,31 +1,18 @@
 package com.velotrade.sdk.api;
 
-import com.google.gson.Gson;
-import com.velotrade.sdk.entity.*;
-import com.velotrade.sdk.jsonobject.AuctionStatus;
-import com.velotrade.sdk.jsonobject.PaginationList;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
+import com.velotrade.sdk.entity.Attachment;
+import com.velotrade.sdk.entity.Auction;
+import com.velotrade.sdk.entity.DebtorContact;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class VelotradePublicAPI {
-
-    private String baseUrl;
-    private String userName;
-    private String password;
-
-    public static final String LOGIN_REQUEST = "/user/login/";
-
-    public VelotradePublicAPI(String baseUrl, String userName, String password) {
-        this.baseUrl = baseUrl;
-        this.userName = userName;
-        this.password = password;
-    }
+public interface VelotradePublicAPI {
+    /**
+     *
+     * @return list of DebtorContact Object
+     * @throws Exception
+     */
+    List<DebtorContact> getDebtorContacts() throws Exception;
 
     /**
      *
@@ -33,115 +20,23 @@ public class VelotradePublicAPI {
      * @return DebtorContact Object
      * @throws Exception
      */
-    public DebtorContact getDebtorContact(String id) throws Exception {
-        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
-
-        String request = "/debtor/"+id+"?fields=name,email,phone,debtor.address,debtor.br,debtor.city,debtor.country,debtor.humanId," +
-                "debtor.legalName,debtor.tradingName,debtor.website,debtor.zipCode";
-        String method = RequestMethod.GET;
-        Map<String, String> contentType = new HashMap<>();
-        contentType.put("Content-type", "application/json");
-        String result = api.query(method, request, null, contentType, false);
-
-        Gson gson = new Gson();
-        DebtorContact debtorContact = gson.fromJson(result, DebtorContact.class);
-
-        return debtorContact;
-    }
+    DebtorContact getDebtorContact(String id) throws Exception;
 
     /**
      *
-     * @param id of AuctionStatus
-     * @return AuctionStatus Object
-     * @throws Exception
-     */
-    public String getAuctionStatus(String id) throws Exception {
-        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
-
-        String request = "/auction/"+id+"?fields=status";
-        String method = RequestMethod.GET;
-        Map<String, String> contentType = new HashMap<>();
-        contentType.put("Content-type", "application/json");
-        String result = api.query(method, request, null, contentType, false);
-
-        Gson gson = new Gson();
-        AuctionStatus auctionStatus = gson.fromJson(result, AuctionStatus.class);
-
-        return auctionStatus.getStatus();
-    }
-
-    /**
-     *
-     * @param id of Auction
-     * @return true if Auction is reject, if not return false
-     * @throws Exception
-     */
-    public boolean rejectAuction(String id) throws Exception {
-        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
-
-        String method = "POST";
-        String request = "/"+id+"/reject";
-        List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("auctionId", id));
-        Map<String, String> contentType = new HashMap<>();
-        contentType.put("Content-type", "application/json;charset=UTF-8");
-
-        String result = null;
-        try {
-            result = api.query(method, request, params, contentType, false);
-        } catch (IOException e) {
-            throw new Exception("An error has occurred while approving the auction");
-        }
-
-        return result == null;
-    }
-
-    /**
-     *
-     * @param id of Auction
+     * @param idAuction of Auction
      * @return true if auction already approve, if not return false
      * @throws Exception
      */
-    public boolean approveAuction(String id) throws Exception {
-        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
-
-        String method = "POST";
-        String request = "/"+id+"/approve";
-
-        List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("auctionId", id));
-
-        Map<String, String> contentType = new HashMap<>();
-        contentType.put("Content-type", "application/json;charset=UTF-8");
-
-        String result = null;
-        try {
-            result = api.query(method, request, params, contentType, false);
-        } catch (IOException e) {
-            throw new Exception("An error has occurred while approving the auction");
-        }
-
-        return result == null;
-    }
+    boolean approveAuction(String idAuction) throws Exception;
 
     /**
      *
-     * @return list of DebtorContact Object
+     * @param idAuction of Auction
+     * @return true if Auction is reject, if not return false
      * @throws Exception
      */
-    public List<DebtorContact> getDebtorContacts() throws Exception {
-        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
-        String request = "/debtor/list";
-        String method = "GET";
-        Map<String, String> contentType = new HashMap<>();
-        contentType.put("Content-type", "application/json");
-        String result = api.query(method, request, null, contentType, false);
-
-        Gson gson = new Gson();
-        PaginationList debtorContacts = gson.fromJson(result, PaginationList.class);
-
-        return debtorContacts.getDebtorContacts();
-    }
+    boolean rejectAuction(String idAuction) throws Exception;
 
     /**
      *
@@ -149,17 +44,15 @@ public class VelotradePublicAPI {
      * @return Attachment Object
      * @throws Exception
      */
-    public Attachment uploadAttachment(String filePath) throws Exception {
+    Attachment uploadAttachment(String filePath) throws Exception;
 
-        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
-        String request = "/attachment/";
-        String result = api.uploadFile(filePath, request);
-
-        Gson gson = new Gson();
-        Attachment attachment = gson.fromJson(result, Attachment.class);
-
-        return attachment;
-    }
+    /**
+     *
+     * @param idAuction of AuctionStatus
+     * @return AuctionStatus Object
+     * @throws Exception
+     */
+    String getAuctionStatus(String idAuction) throws Exception;
 
     /**
      *
@@ -167,23 +60,5 @@ public class VelotradePublicAPI {
      * @return id of auction
      * @throws Exception
      */
-    public String createAuction(Auction auction) throws Exception {
-        VelotradePublicConnection api = new VelotradePublicConnection(this.baseUrl, this.userName, this. password, VelotradePublicAPI.LOGIN_REQUEST);
-
-        String request = "/auction/";
-        String method = "POST";
-        List<NameValuePair> params = new ArrayList<>();
-        Gson gson = new Gson();
-        String json = gson.toJson(auction);
-        params.add(new BasicNameValuePair("json", json));
-
-        Map<String, String> contentType = new HashMap<>();
-        contentType.put("Content-type", "application/json;charset=UTF-8");
-        String result = api.query(method,request,params,contentType, true);
-
-        AuctionStatus auctionStatus = gson.fromJson(result, AuctionStatus.class);
-        return auctionStatus.getId();
-    }
-
-
+    String createAuction(Auction auction) throws Exception;
 }

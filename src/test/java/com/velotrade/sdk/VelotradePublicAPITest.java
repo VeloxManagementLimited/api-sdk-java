@@ -1,6 +1,7 @@
 package com.velotrade.sdk;
 
 import com.velotrade.sdk.api.VelotradePublicAPI;
+import com.velotrade.sdk.api.VelotradePublicAPIImpl;
 import com.velotrade.sdk.entity.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,11 @@ public class VelotradePublicAPITest {
 
     @Before
     public void createVelotradePublicAPI(){
-        api = new VelotradePublicAPI(baseUrl, username, password);
+        try {
+            api = new VelotradePublicAPIImpl(baseUrl, username, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

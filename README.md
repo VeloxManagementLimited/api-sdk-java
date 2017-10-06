@@ -17,7 +17,7 @@ You can complie it yourself, here's how:
 String baseUrl = "https://devapi.velotrade.com";
 String username = "your username";
 String password = "your md5 password";
-VelotradePublicAPI api = new VelotradePublicAPI(baseUrl, username, password);    
+VelotradePublicAPI api = new VelotradePublicAPIImpl(baseUrl, username, password);    
     
 ```
 
