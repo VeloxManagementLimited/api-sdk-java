@@ -12,8 +12,8 @@ import static org.junit.Assert.*;
 public class VelotradePublicAPITest {
 
     String baseUrl = "https://devapi.velotrade.com";
-    String username = "robin.walser+sel1@me.com";
-    String password = "LBlN/DMcGA/NnI7WQot3qg==";
+    String username = "<username>";
+    String password = "<password>";
 
     VelotradePublicAPI api;
 
@@ -28,7 +28,7 @@ public class VelotradePublicAPITest {
 
         DebtorContact expectedResult = new DebtorContact();
         expectedResult.setId("oa1a6a170-d3d4-428a-835f-35ab021d410c");
-        expectedResult.setEmail("robin.walser+contact1@me.com");
+        expectedResult.setEmail("<email>");
         expectedResult.setName("Contact 1");
         expectedResult.setPhone("123123");
 
@@ -112,7 +112,7 @@ public class VelotradePublicAPITest {
     @Test
     public void testUploadFileShouldReturnNull(){
         try {
-            Attachment result = api.uploadAttachment("/home/hieu/icon.png");
+            Attachment result = api.uploadAttachment("<file-path>");
             assertNotNull(result);
         } catch (Exception e) {
             e.printStackTrace();
@@ -137,7 +137,7 @@ public class VelotradePublicAPITest {
 
 
         try {
-            Attachment attachment = api.uploadAttachment("/home/hieu/icon.png");
+            Attachment attachment = api.uploadAttachment("<file-path>");
             DebtorContact debtorContact = api.getDebtorContact(id);
             Auction auction = new Auction(debtorContact, invoice, attachment, attachment, attachment);
 

@@ -11,8 +11,8 @@ import java.io.IOException;
 public class VelotradeAPIConnectionTest {
 
     String baseUrl = "https://devapi.velotrade.com";
-    String $username = "robin.walser+sel1@me.com";
-    String $password = "LBlN/DMcGA/NnI7WQot3qg==";
+    String $username = "<username>";
+    String $password = "<password>";
 
     @Test
     public void test() {
