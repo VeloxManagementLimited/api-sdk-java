@@ -130,7 +130,7 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
      * @throws Exception
      */
     public List<DebtorContact> getDebtorContacts() throws Exception {
-        String request = "/debtor/list";
+        String request = "/debtor/list?fields=contacts";
         String method = "GET";
         Map<String, String> contentType = new HashMap<>();
         contentType.put("Content-type", "application/json");
