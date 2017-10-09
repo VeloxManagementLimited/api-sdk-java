@@ -31,7 +31,7 @@ VelotradePublicAPI api = new VelotradePublicAPIImpl(baseUrl, username, password)
 DebtorContact result = api.getDebtorContact(id);
 ```
 
-### Create auction
+### createAuction
 ```java
 
 String issueDate = "2017-09-28T16:00:00.000Z";
