@@ -83,4 +83,19 @@ public class Invoice {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "number='" + number + '\'' +
+                ", issueDate='" + issueDate + '\'' +
+                ", currency='" + currency + '\'' +
+                ", amount=" + amount +
+                ", expectedAmount=" + expectedAmount +
+                ", paymentTerms=" + paymentTerms +
+                ", dueDate='" + dueDate + '\'' +
+                ", expectedPaymentDate='" + expectedPaymentDate + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

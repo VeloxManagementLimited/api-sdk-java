@@ -173,4 +173,26 @@ public class Auction {
     public void setPurchaseOrder(Attachment purchaseOrder) {
         this.purchaseOrder = purchaseOrder;
     }
+
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "debtor=" + debtor +
+                ", debtorName='" + debtorName + '\'' +
+                ", debtorEmail='" + debtorEmail + '\'' +
+                ", debtorPhone='" + debtorPhone + '\'' +
+                ", number='" + number + '\'' +
+                ", issueDate='" + issueDate + '\'' +
+                ", currency='" + currency + '\'' +
+                ", amount=" + amount +
+                ", expectedAmount=" + expectedAmount +
+                ", paymentTerms=" + paymentTerms +
+                ", dueDate='" + dueDate + '\'' +
+                ", expectedPaymentDate='" + expectedPaymentDate + '\'' +
+                ", description='" + description + '\'' +
+                ", invoice=" + invoice +
+                ", transportationDocument=" + transportationDocument +
+                ", purchaseOrder=" + purchaseOrder +
+                '}';
+    }
 }

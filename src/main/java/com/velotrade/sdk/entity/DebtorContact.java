@@ -47,4 +47,15 @@ public class DebtorContact {
     public void setDebtor(Debtor debtor) {
         this.debtor = debtor;
     }
+
+    @Override
+    public String toString() {
+        return "DebtorContact{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", debtor=" + debtor +
+                '}';
+    }
 }

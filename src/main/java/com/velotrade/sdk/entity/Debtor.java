@@ -94,4 +94,20 @@ public class Debtor {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    @Override
+    public String toString() {
+        return "Debtor{" +
+                "id='" + id + '\'' +
+                ", address='" + address + '\'' +
+                ", br='" + br + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", humanId='" + humanId + '\'' +
+                ", legalName='" + legalName + '\'' +
+                ", tradingName='" + tradingName + '\'' +
+                ", website='" + website + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                '}';
+    }
 }
