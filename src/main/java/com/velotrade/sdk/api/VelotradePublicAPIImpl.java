@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.velotrade.sdk.entity.*;
 import com.velotrade.sdk.jsonobject.AuctionStatus;
 import com.velotrade.sdk.jsonobject.PaginationList;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -155,8 +156,7 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
 
         Gson gson = new Gson();
         Attachment attachment = gson.fromJson(result, Attachment.class);
-        attachment.setName(filePath.substring(filePath.lastIndexOf("/")+1));
-
+        attachment.setName(FilenameUtils.getBaseName(filePath));
         return attachment;
     }
 
