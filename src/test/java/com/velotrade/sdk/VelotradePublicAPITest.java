@@ -3,6 +3,9 @@ package com.velotrade.sdk;
 import com.velotrade.sdk.api.VelotradePublicAPI;
 import com.velotrade.sdk.api.VelotradePublicAPIImpl;
 import com.velotrade.sdk.entity.*;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -131,18 +134,24 @@ public class VelotradePublicAPITest {
     }
 
     @Test
-    public void createAuctionShouldNotReturnNull(){
+    public void createAuctionShouldNotReturnNull() throws Exception {
+
+        String issueDate = "2017-09-28T16:00:00.000Z";
+        String dueDate = "2017-11-27T16:00:00.000Z";
+        String expectedPaymentDate = "2017-11-27T16:00:00.000Z";
+        DateTimeFormatter parser = ISODateTimeFormat.dateTimeParser();
+
         Date today = new Date();
         String id = "oa1a6a170-d3d4-428a-835f-35ab021d410c";
         Invoice invoice = new Invoice();
         invoice.setNumber("TEST");
-        invoice.setIssueDate(today);
+        invoice.setIssueDate(parser.parseDateTime(issueDate).toDate());
         invoice.setCurrency("USD");
         invoice.setAmount(10000);
         invoice.setExpectedAmount(10000);
         invoice.setPaymentTerms(6000);
-        invoice.setDueDate(today);
-        invoice.setExpectedPaymentDate(today);
+        invoice.setDueDate(parser.parseDateTime(dueDate).toDate());
+        invoice.setExpectedPaymentDate(parser.parseDateTime(expectedPaymentDate).toDate());
         invoice.setDescription("TEST");
 
 
