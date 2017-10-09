@@ -1,5 +1,7 @@
 package com.velotrade.sdk.entity;
 
+import java.util.Date;
+
 public class Auction {
 
     private Debtor debtor;
@@ -11,13 +13,13 @@ public class Auction {
 
     //information from invoice
     private String number;
-    private String issueDate;
+    private Date issueDate;
     private String currency;
     private float amount;
     private float expectedAmount;
     private float paymentTerms;
-    private String dueDate;
-    private String expectedPaymentDate;
+    private Date dueDate;
+    private Date expectedPaymentDate;
     private String description;
 
     private Attachment invoice;
@@ -86,11 +88,11 @@ public class Auction {
         this.number = number;
     }
 
-    public String getIssueDate() {
+    public Date getIssueDate() {
         return issueDate;
     }
 
-    public void setIssueDate(String issueDate) {
+    public void setIssueDate(Date issueDate) {
         this.issueDate = issueDate;
     }
 
@@ -126,19 +128,19 @@ public class Auction {
         this.paymentTerms = paymentTerms;
     }
 
-    public String getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 
-    public String getExpectedPaymentDate() {
+    public Date getExpectedPaymentDate() {
         return expectedPaymentDate;
     }
 
-    public void setExpectedPaymentDate(String expectedPaymentDate) {
+    public void setExpectedPaymentDate(Date expectedPaymentDate) {
         this.expectedPaymentDate = expectedPaymentDate;
     }
 

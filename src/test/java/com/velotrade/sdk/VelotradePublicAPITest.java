@@ -6,6 +6,9 @@ import com.velotrade.sdk.entity.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -116,41 +119,46 @@ public class VelotradePublicAPITest {
 
     @Test
     public void testUploadFileShouldReturnNull(){
+        Attachment result = null;
         try {
-            Attachment result = api.uploadAttachment("<file-path>");
-            assertNotNull(result);
+            result = api.uploadAttachment("<file-path>");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        assertNotNull(result);
 
     }
 
     @Test
     public void createAuctionShouldNotReturnNull(){
+        Date today = new Date();
         String id = "oa1a6a170-d3d4-428a-835f-35ab021d410c";
         Invoice invoice = new Invoice();
         invoice.setNumber("TEST");
-        invoice.setIssueDate("2017-09-28T16:00:00.000Z");
+        invoice.setIssueDate(today);
         invoice.setCurrency("USD");
         invoice.setAmount(10000);
         invoice.setExpectedAmount(10000);
         invoice.setPaymentTerms(6000);
-        invoice.setDueDate("2017-11-27T16:00:00.000Z");
-        invoice.setExpectedPaymentDate("2017-11-27T16:00:00.000Z");
+        invoice.setDueDate(today);
+        invoice.setExpectedPaymentDate(today);
         invoice.setDescription("TEST");
 
 
+        String result = null;
         try {
             Attachment attachment = api.uploadAttachment("<file-path>");
             DebtorContact debtorContact = api.getDebtorContact(id);
             Auction auction = new Auction(debtorContact, invoice, attachment, attachment, attachment);
 
-            String result = api.createAuction(auction);
-            assertNotNull(result);
+            result = api.createAuction(auction);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        assertNotNull(result);
 
     }
 }
