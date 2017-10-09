@@ -118,15 +118,15 @@ public class VelotradePublicAPITest {
     }
 
     @Test
-    public void testUploadFileShouldReturnNull(){
+    public void testUploadFileShouldReturnResultContainName(){
         Attachment result = null;
         try {
-            result = api.uploadAttachment("<file-path>");
+            result = api.uploadAttachment("<file path>");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertNotNull(result);
+        assertEquals("detail page.png", result.getName());
 
     }
 
@@ -148,7 +148,7 @@ public class VelotradePublicAPITest {
 
         String result = null;
         try {
-            Attachment attachment = api.uploadAttachment("<file-path>");
+            Attachment attachment = api.uploadAttachment("<file path>");
             DebtorContact debtorContact = api.getDebtorContact(id);
             Auction auction = new Auction(debtorContact, invoice, attachment, attachment, attachment);
 
