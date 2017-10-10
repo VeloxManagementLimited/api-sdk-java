@@ -163,9 +163,11 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
 
         Gson gson = new Gson();
         Attachment attachment = gson.fromJson(result, Attachment.class);
-        attachment.setName(FilenameUtils.getBaseName(filePath));
+
+        attachment.setName(FilenameUtils.getName(filePath));
         return attachment;
     }
+
 
     /**
      *

@@ -129,7 +129,7 @@ public class VelotradePublicAPITest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals("detail page", result.getName());
+        assertEquals("detail page.png", result.getName());
 
     }
 
