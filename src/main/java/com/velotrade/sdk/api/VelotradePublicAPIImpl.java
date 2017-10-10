@@ -2,7 +2,11 @@ package com.velotrade.sdk.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.velotrade.sdk.entity.*;
+import com.google.gson.*;
+import com.velotrade.sdk.entity.Attachment;
+import com.velotrade.sdk.entity.Auction;
+import com.velotrade.sdk.entity.DebtorContact;
+import com.velotrade.sdk.entity.RequestMethod;
 import com.velotrade.sdk.jsonobject.AuctionStatus;
 import com.velotrade.sdk.jsonobject.PaginationList;
 import org.apache.commons.io.FilenameUtils;
@@ -10,16 +14,18 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class VelotradePublicAPIImpl implements VelotradePublicAPI {
 
     private String baseUrl;
     private String userName;
     private String password;
+    private Gson gson = new GsonBuilder().registerTypeAdapter(Date.class, new GsonUTCDateAdapter()).create();
 
     public static final String LOGIN_REQUEST = "/user/login/";
 
@@ -207,5 +213,29 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
 
     public void setApi(VelotradeConnection api) {
         this.api = api;
+    }
+
+    private class GsonUTCDateAdapter implements JsonSerializer<Date>, JsonDeserializer<Date> {
+
+        private final DateFormat dateFormat;
+
+        public GsonUTCDateAdapter() {
+            dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);
+            dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        }
+
+        @Override
+        public synchronized JsonElement serialize(Date date, Type type, JsonSerializationContext jsonSerializationContext) {
+            return new JsonPrimitive(dateFormat.format(date));
+        }
+
+        @Override
+        public synchronized Date deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) {
+            try {
+                return dateFormat.parse(jsonElement.getAsString());
+            } catch (ParseException e) {
+                throw new JsonParseException(e);
+            }
+        }
     }
 }
