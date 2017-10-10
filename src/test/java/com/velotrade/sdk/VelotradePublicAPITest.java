@@ -3,31 +3,31 @@ package com.velotrade.sdk;
 import com.velotrade.sdk.api.VelotradePublicAPI;
 import com.velotrade.sdk.api.VelotradePublicAPIImpl;
 import com.velotrade.sdk.entity.*;
-import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
+import java.util.Properties;
 
 import static org.junit.Assert.*;
 
 public class VelotradePublicAPITest {
 
-    String baseUrl = "https://devapi.velotrade.com";
-    String username = "<username>";
-    String password = "<password>";
-
+    Properties prop = new Properties();
     VelotradePublicAPI api;
 
     @Before
     public void createVelotradePublicAPI(){
+
+        File file = new File("testInfo.properties");
         try {
-            api = new VelotradePublicAPIImpl(baseUrl, username, password);
+            FileInputStream fileInput = new FileInputStream(file);
+            prop.load(fileInput);
+            api = new VelotradePublicAPIImpl(prop.getProperty("baseUrl"), prop.getProperty("username"), prop.getProperty("password"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,7 +124,7 @@ public class VelotradePublicAPITest {
     public void testUploadFileShouldReturnResultContainName(){
         Attachment result = null;
         try {
-            result = api.uploadAttachment("<file-path>");
+            result = api.uploadAttachment(prop.getProperty("filePath"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,7 +156,7 @@ public class VelotradePublicAPITest {
 
         String result = null;
         try {
-            Attachment attachment = api.uploadAttachment("<file-path>");
+            Attachment attachment = api.uploadAttachment(prop.getProperty("filePath"));
             DebtorContact debtorContact = api.getDebtorContact(id);
             Auction auction = new Auction(debtorContact, invoice, attachment, attachment, attachment);
 
