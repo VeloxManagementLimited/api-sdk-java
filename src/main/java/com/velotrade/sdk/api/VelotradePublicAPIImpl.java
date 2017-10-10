@@ -1,6 +1,7 @@
 package com.velotrade.sdk.api;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.velotrade.sdk.entity.*;
 import com.velotrade.sdk.jsonobject.AuctionStatus;
 import com.velotrade.sdk.jsonobject.PaginationList;
@@ -170,7 +171,7 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
         String request = "/auction/";
         String method = "POST";
         List<NameValuePair> params = new ArrayList<>();
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
         String json = gson.toJson(auction);
         params.add(new BasicNameValuePair("json", json));
 

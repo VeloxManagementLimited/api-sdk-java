@@ -124,12 +124,12 @@ public class VelotradePublicAPITest {
     public void testUploadFileShouldReturnResultContainName(){
         Attachment result = null;
         try {
-            result = api.uploadAttachment("<file path>");
+            result = api.uploadAttachment("<file-path>");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        assertEquals("detail page.png", result.getName());
+        assertEquals("detail page", result.getName());
 
     }
 
@@ -141,7 +141,6 @@ public class VelotradePublicAPITest {
         String expectedPaymentDate = "2017-11-27T16:00:00.000Z";
         DateTimeFormatter parser = ISODateTimeFormat.dateTimeParser();
 
-        Date today = new Date();
         String id = "oa1a6a170-d3d4-428a-835f-35ab021d410c";
         Invoice invoice = new Invoice();
         invoice.setNumber("TEST");
@@ -157,7 +156,7 @@ public class VelotradePublicAPITest {
 
         String result = null;
         try {
-            Attachment attachment = api.uploadAttachment("<file path>");
+            Attachment attachment = api.uploadAttachment("<file-path>");
             DebtorContact debtorContact = api.getDebtorContact(id);
             Auction auction = new Auction(debtorContact, invoice, attachment, attachment, attachment);
 
