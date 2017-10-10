@@ -23,7 +23,7 @@ public class VelotradePublicAPITest {
     @Before
     public void createVelotradePublicAPI(){
 
-        File file = new File("testInfo.properties");
+        File file = new File("src/test/resources/testInfo.properties");
         try {
             FileInputStream fileInput = new FileInputStream(file);
             prop.load(fileInput);
