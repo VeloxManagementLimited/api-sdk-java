@@ -183,6 +183,27 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
         return auctionStatus.getId();
     }
 
+    /**
+     *
+     * @param idAuciton
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public String getAuctionPhase(String idAuciton) throws Exception {
+        String request = "/auction/"+idAuciton+"?fields=phase";
+        String method = RequestMethod.GET;
+
+        Map<String, String> contentType = new HashMap<>();
+        contentType.put("Content-type", "application/json");
+
+        String result = api.query(method, request, null, contentType, false);
+
+        Gson gson = new Gson();
+        AuctionStatus auctionStatus = gson.fromJson(result, AuctionStatus.class);
+        return auctionStatus.getPhase();
+    }
+
 
     public void setApi(VelotradeConnection api) {
         this.api = api;

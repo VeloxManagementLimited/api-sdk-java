@@ -169,4 +169,20 @@ public class VelotradePublicAPITest {
         assertNotNull(result);
 
     }
+
+    @Test
+    public void testGetAuctionPhaseShouldReturnExpectedId(){
+
+        String id = "t6bba8cd6-5cd0-489a-8452-e3e351337755";
+        String expectedResult = "READY_TO_GO_LIVE";
+
+        try {
+            String result = api.getAuctionPhase(id);
+
+            assertEquals(expectedResult,result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }

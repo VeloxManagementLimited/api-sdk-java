@@ -61,4 +61,12 @@ public interface VelotradePublicAPI {
      * @throws Exception
      */
     String createAuction(Auction auction) throws Exception;
+
+    /**
+     *
+     * @param idAuciton
+     * @return
+     * @throws Exception
+     */
+    String getAuctionPhase(String idAuciton) throws Exception;
 }
