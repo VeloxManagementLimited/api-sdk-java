@@ -54,7 +54,6 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
         contentType.put("Content-type", "application/json");
         String result = api.query(method, request, null, contentType, false);
 
-        Gson gson = new Gson();
         DebtorContact debtorContact = gson.fromJson(result, DebtorContact.class);
 
         return debtorContact;
@@ -74,7 +73,6 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
         contentType.put("Content-type", "application/json");
         String result = api.query(method, request, null, contentType, false);
 
-        Gson gson = new Gson();
         AuctionStatus auctionStatus = gson.fromJson(result, AuctionStatus.class);
 
         return auctionStatus.getStatus();
@@ -144,7 +142,6 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
         contentType.put("Content-type", "application/json");
         String result = api.query(method, request, null, contentType, false);
 
-        Gson gson = new Gson();
         PaginationList debtorContacts = gson.fromJson(result, PaginationList.class);
 
         return debtorContacts.getDebtorContacts();
@@ -161,7 +158,6 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
         String request = "/attachment/";
         String result = api.uploadFile(filePath, request);
 
-        Gson gson = new Gson();
         Attachment attachment = gson.fromJson(result, Attachment.class);
 
         attachment.setName(FilenameUtils.getName(filePath));
@@ -179,7 +175,7 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
         String request = "/auction/";
         String method = "POST";
         List<NameValuePair> params = new ArrayList<>();
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
+
         String json = gson.toJson(auction);
         params.add(new BasicNameValuePair("json", json));
 
@@ -207,7 +203,6 @@ public class VelotradePublicAPIImpl implements VelotradePublicAPI {
 
         String result = api.query(method, request, null, contentType, false);
 
-        Gson gson = new Gson();
         AuctionStatus auctionStatus = gson.fromJson(result, AuctionStatus.class);
         return auctionStatus.getPhase();
     }
