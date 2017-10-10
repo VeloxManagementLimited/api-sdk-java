@@ -9,7 +9,7 @@ public class Invoice {
     private String currency;
     private float amount;
     private float expectedAmount;
-    private float paymentTerms;
+    private int paymentTerms;
     private Date dueDate;
     private Date expectedPaymentDate;
     private String description;
@@ -54,11 +54,11 @@ public class Invoice {
         this.expectedAmount = expectedAmount;
     }
 
-    public float getPaymentTerms() {
+    public int getPaymentTerms() {
         return paymentTerms;
     }
 
-    public void setPaymentTerms(float paymentTerms) {
+    public void setPaymentTerms(int paymentTerms) {
         this.paymentTerms = paymentTerms;
     }
 
